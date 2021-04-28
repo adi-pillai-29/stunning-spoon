@@ -1,0 +1,102 @@
+C00D 000	jmp 	start 	skip around the variables 
+0000 001 i 	dw 	0 	int i - iterator
+0000 002 j      dw      0       int j - iterator
+0009 003 n 	dw 	9	array size
+0000 004 temp   dw      0       temp variable
+0000 005 zero 	dw 	0       definition of 0 
+0001 006 one 	dw 	1       definition of 1
+0000 007 curEl  dw      0       array[j]
+0000 008 prevEl dw      0       array[j-1]
+3000 009 adit 	dw 	3000 	load instruction 
+4000 00A bdit	dw	4000	store instruction 
+0070 00B bAdd   dw      70	constant base address 
+0000 00C
+3005 00D start	load 	zero 	i = 0;
+4001 00E 	store 	i
+300A 00F loop	load 	bdit
+300A 010 	load 	bdit 	form the instruction to store a[i]
+500B 011 	add 	bAdd
+5001 012 	add 	i
+4015 013 	store 	doit 	plant the instruction into the program
+1000 014 	readH 	 	reads value of array from input
+0000 015 doit 	dw 	0
+3001 016    	load 	i
+6003 017	sub 	n
+D01D 018	jmpe	xit
+3001 019 	load 	i 	i += 1
+5006 01A 	add 	one
+4001 01B 	store 	i
+C00F 01C 	jmp 	loop 	goto loop
+3005 01D xit	load 	zero 	i = 0; first xit )
+4001 01E        store   i
+3003 01F loop	load	n
+3003 020 	load	n 	j = Max -1
+3003 021 	load 	n
+4002 022 	store	j
+3002 023 loop   load	j       (if i >= j) go to exit
+6001 024        sub 	i
+D04E 025 	jmpe	xit	third exit (
+3009 026 	load 	adit 	form the instruction to load array[j]
+500B 027 	add 	bAdd
+5002 028 	add 	j
+402A 029 	store 	doit 	plant the instruction into the program
+0000 02A doit 	dw 	0
+4007 02B        store 	curEl	save the array[j] element
+3009 02C 	load 	adit 	form the instruction to load array[j-1]
+500B 02D 	add 	bAdd
+5002 02E 	add 	j
+6006 02F        sub     one
+4031 030 	store 	doit 	plant the instruction into the program
+0000 031 doit 	dw 	0
+4008 032        store   prevEl  save array[j-1] elemeny
+3008 033        load    prevEl
+6007 034	sub	curEl	(if a[j] >= a[j-1]) go to xit
+E04A 035        jmpl    xit
+D04A 036        jmpe    xit     fourth xit(
+3007 037        load 	curEl	Storing Array[j] into temp var
+4004 038        store   temp
+3008 039        load 	prevEl	Store array[j-1] into j
+4007 03A  	store   curEl
+3004 03B	load 	temp	Store new temp into Array [j-1]
+4008 03C	store   prevEl
+300A 03D	load 	bdit 	form the instruction to store array[j]
+500B 03E 	add 	bAdd
+5002 03F 	add 	j
+4042 040 	store 	doit 	plant the instruction into the program
+3007 041        load    curEl
+0000 042 doit 	dw 	0
+300A 043 	load 	bdit 	form the instruction to store array[j-1]
+500B 044 	add 	bAdd
+5002 045 	add 	j
+6006 046        sub     one
+4049 047 	store 	doit 	plant the instruction into the program
+3008 048        load    prevEl
+0000 049 doit 	dw 	0
+3002 04A xit	load 	j	fourth xit )
+6006 04B 	sub 	one
+4002 04C	store 	j
+C023 04D	jmp 	loop
+3001 04E xit    load	i
+6003 04F 	sub 	n
+D055 050	jmpe    xit
+3001 051 	load 	i	third xit )
+5006 052 	add 	one
+4001 053	store 	i
+C01F 054	jmp	loop
+3005 055 xit	load 	zero	second xit )
+4001 056        store   i
+3009 057 loop	load 	adit
+3009 058        load    adit	setting up instruction to load array[i]
+500B 059 	add 	bAdd
+5001 05A 	add 	i
+405C 05B 	store 	doit 	plant the instruction into the program
+0000 05C doit 	dw 	0
+1800 05D 	printH		print the current array value
+3001 05E    	load 	i
+6003 05F	sub 	n
+D065 060	jmpe	xit
+3001 061 	load 	i 	i += 1
+5006 062 	add 	one
+4001 063 	store 	i
+C057 064 	jmp	loop	goto loop
+0000 065 xit	halt		end of program

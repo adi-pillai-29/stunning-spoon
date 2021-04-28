@@ -1,0 +1,59 @@
+C009 000	jmp 	start 	skip around the variables 
+0000 001 i 	dw 	0 	int i - iterator 
+0000 002 n 	dw 	0	array size 
+0000 003 zero 	dw 	0       definition of 0 
+0001 004 one 	dw 	1       definition of 1 
+3000 005 adit 	dw 	3000 	load instruction 
+4000 006 bdit	dw	4000	store instruction 
+0070 007 bAdd   dw      70	constant base address 
+0000 008
+1000 009 start 	readH 		read array size
+4002 00A 	store 	n
+3003 00B 	load 	zero 	i = 0;
+4001 00C 	store 	i
+3002 00D loop 	load 	n 	if (i >= N) goto xit
+6001 00E 	sub 	i
+E01B 00F 	jmpl 	xit
+D01B 010 	jmpe 	xit
+3006 011 	load 	bdit 	form the instruction to store a[i]
+5007 012 	add 	bAdd
+5001 013 	add 	i
+4016 014 	store 	doit 	plant the instruction into the program
+1000 015 	readH 	 	reads value of array from input
+0000 016 doit 	dw 	0
+3001 017 	load 	i 	i += 1
+5004 018 	add 	one
+4001 019 	store 	i
+C00D 01A 	jmp 	loop 	goto loop
+3003 01B xit	load 	zero 	i = 0;
+4001 01C 	store 	i
+3002 01D loop   load    n	(if i >= N) go to xit
+6001 01E        sub 	i
+E02B 01F 	jmpl 	xit
+D02B 020 	jmpe 	xit
+3005 021 	load 	adit 	form the instruction to load a[i]
+5007 022 	add 	bAdd
+5001 023 	add 	i
+4025 024 	store 	doit 	plant the instruction into the program
+0000 025 doit 	dw 	0
+1800 026 	printH		print the current array value
+3001 027 	load 	i 	i += 1
+5004 028 	add 	one
+4001 029 	store 	i
+C01D 02A 	jmp	loop	goto loop
+3002 02B xit	load 	n	i = n (array size);
+6004 02C        sub     one     subtract one for correct indexing
+4001 02D 	store 	i
+3001 02E loop   load    i	(if i < 0) go to xit
+E03A 02F 	jmpl 	xit
+3005 030 	load 	adit 	form the instruction to load a[i]
+5007 031 	add 	bAdd
+5001 032 	add 	i
+4034 033 	store 	doit 	plant the instruction into the program
+0000 034 doit 	dw 	0
+1800 035 	printH		print the current array value
+3001 036 	load 	i 	i -= 1
+6004 037 	sub 	one
+4001 038 	store 	i
+C02E 039 	jmp	loop
+0000 03A xit	halt		end of program

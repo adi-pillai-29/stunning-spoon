@@ -1,0 +1,31 @@
+C00A 000	jmp 	loop 	jump to loop
+0000 001 a 	dw 	0 	int a - first term in sum 
+0000 002 b 	dw 	0 	int b - second term in sum
+0000 003 c 	dw 	0 	int c - third term in sum 
+0000 004 sum 	dw 	0	int sum - running total 
+0000 005  	 	
+0000 006			leave space for changes
+0000 007
+0000 008
+0000 009
+1000 00A loop 	readH 		read a
+4001 00B 	store	a
+1000 00C 	readH		read b
+4002 00D 	store 	b
+1000 00E 	readH 	 	read c
+4003 00F 	store 	c
+3001 010   	load 	a	load a into accumulator
+5002 011 	add 	b	add to a in accumulator,the values of b and c
+5003 012 	add     c
+1800 013	printH		printing the sum
+4004 014 	store 	sum 	store in the running total
+3004 015 	load 	sum	load sum into acc
+D018 016 	jmpe 	xit	if sum is 0, break from loop
+C00A 017	jmp 	loop 	if not 0,then restart the loop (reading vals)
+3001 018  xit 	load 	a 	print a
+1800 019 	printH
+3002 01A	load	b	print b
+1800 01B	printH
+3003 01C	load	c	print c
+1800 01D	printH
+0000 01E 	halt 		halt
